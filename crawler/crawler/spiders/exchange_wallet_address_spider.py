@@ -11,8 +11,10 @@ class ExchangeWalletAddressSpider(scrapy.Spider):
     def start_requests(self):
         url_str = 'https://www.walletexplorer.com/wallet/{}/addresses?page={}'
 
-        for exchange_name in ['Bittrex.com']:
-            yield scrapy.Request(url=url_str.format(exchange_name, 1), callback=self.parse_first_page)
+        with open('../../exchange_names_on_walletexplorer.txt') as fin:
+            exchange_names = fin.readlines()
+            for exchange_name in exchange_names:
+                yield scrapy.Request(url=url_str.format(exchange_name.split()[0], 1), callback=self.parse_first_page)
 
     def parse_first_page(self, response):
         num_pages = response.css('div.paging a::attr(href)').getall()[-1].split('=')[-1]
