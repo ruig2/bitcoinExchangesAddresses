@@ -37,7 +37,10 @@ class ExchangeWalletAddressSpider(scrapy.Spider):
             for product in products[1:]:
                 row = []
                 for i in range(1, 5):
-                    row.append(product.xpath('td[{}]//text()'.format(i)).extract_first())
+                    row.append(
+                        product.xpath(
+                        'td[{}]//text()'.format(i)).extract_first().split(u'\xa0')[0]
+                            )
                 f.write(','.join(row) + '\n')
         self.log('Saved file %s' % filename_html)
 
