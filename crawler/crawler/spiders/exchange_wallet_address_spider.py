@@ -63,6 +63,6 @@ class ExchangeWalletAddressSpider(scrapy.Spider):
             return
 
         # Looks like the threshold to ban DDoS access is 1 second on WalletExplorer
-        time.sleep(1)
+        #time.sleep(1)
         if next_page is not None:
             yield response.follow(next_page, self.parse_first_page)
